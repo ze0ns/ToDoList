@@ -7,3 +7,20 @@
 //
 
 import Foundation
+var ToDoItems: [String] = ["Позавтракать","Написать приложений"]
+
+func addItem(nameItem: String) {
+    ToDoItems.append(nameItem)
+    saveData()
+}
+    
+func removeItem(at index: Int){
+    ToDoItems.remove(at: index)
+    saveData()
+}
+func saveData(){
+    
+}
+func loadData(){
+    
+}
