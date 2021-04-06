@@ -78,13 +78,12 @@ class TableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
         if changeState(at: indexPath.row) {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            tableView.reloadData()
+            
         } else {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            tableView.reloadData()
         }
     }
     

@@ -7,7 +7,21 @@
 //
 
 import Foundation
-var ToDoItems: [[String: Any]] = [["Name":"Позвонить маме","isCompleted": false],["Name":"Написать приложение","isCompleted": true],["Name":"Отметить с друзьями","isCompleted": false]]
+var ToDoItems: [[String: Any]] {
+    set
+    {  print("Сохраняем данные")
+        UserDefaults.standard.set(newValue, forKey: "ToDoDataKey")
+    UserDefaults.standard.synchronize()
+    }
+    get {
+        print("Загружаем данные")
+        if let array = UserDefaults.standard.array(forKey: "ToDoDataKey") as? [[String: Any]]{
+            return array
+        } else {
+            return []
+        }
+    }
+}
 
 func addItem(nameItem: String, isCompleted: Bool = false) {
     ToDoItems.append(["Name":nameItem,"isCompleted": isCompleted])
@@ -25,8 +39,9 @@ func changeState(at item: Int) -> Bool{
     
 }
 func saveData(){
-    print("Сохраняем данные")
+
 }
 func loadData(){
-    
+   
+//    UserDefaults.standard.synchronize()
 }
