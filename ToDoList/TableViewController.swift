@@ -11,6 +11,13 @@ import UIKit
 class TableViewController: UITableViewController {
 
     
+    @IBAction func pushEditAction(_ sender: Any) {
+                     
+        tableView.setEditing(!tableView.isEditing, animated: true)
+        tableView.reloadData()
+        
+    
+    }
     @IBAction func pushAddAction(_ sender: Any) {
         let alertController = UIAlertController(title: "Create new item", message: nil, preferredStyle: .alert)
         
@@ -63,11 +70,20 @@ class TableViewController: UITableViewController {
         // проверяем выполнение задачи
         
         if (currentItem["isCompleted"] as? Bool) == true {
-            cell.accessoryType = .checkmark
+            cell.imageView?.image = #imageLiteral(resourceName: "check")
         } else {
-            cell.accessoryType = .none
+            cell.imageView?.image = #imageLiteral(resourceName: "uncheck")
         }
 
+        if tableView.isEditing{
+            cell.textLabel?.alpha = 0.4
+            cell.imageView?.alpha = 0.4
+        }
+        else
+        {
+            cell.textLabel?.alpha = 1
+            cell.imageView?.alpha = 1
+        }
         return cell
     }
     
@@ -94,20 +110,34 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         if changeState(at: indexPath.row) {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            
+            tableView.cellForRow(at: indexPath)?.imageView?.image = #imageLiteral(resourceName: "check")
+            tableView.reloadData()
         } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+            tableView.cellForRow(at: indexPath)?.imageView?.image = #imageLiteral(resourceName: "uncheck")
+            tableView.reloadData()
         }
-    }
+            }
     
-    /*
+
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+        // Переместим записи в массиве , для этого удалим строчку и добавим строчку по позиции
+        moveItem(fromIndex: fromIndexPath.row, toIndex: to.row)
 
     }
-    */
 
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if tableView.isEditing{
+            return .none
+        }
+        else
+        {
+            return .delete
+        }
+    }
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
     /*
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
