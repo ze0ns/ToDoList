@@ -108,15 +108,17 @@ class TableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
+   
         if changeState(at: indexPath.row) {
             tableView.cellForRow(at: indexPath)?.imageView?.image = #imageLiteral(resourceName: "check")
-            tableView.reloadData()
+          
         } else {
             tableView.cellForRow(at: indexPath)?.imageView?.image = #imageLiteral(resourceName: "uncheck")
-            tableView.reloadData()
+            
         }
-            }
+        tableView.deselectRow(at: indexPath, animated: true)
+        tableView.reloadData()
+}
     
 
     // Override to support rearranging the table view.
